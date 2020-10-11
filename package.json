@@ -19,7 +19,8 @@
   "homepage": "https://github.com/zhounie/blog-server#readme",
   "dependencies": {
     "koa": "^2.13.0",
-    "koa-router": "^9.4.0"
+    "koa-router": "^9.4.0",
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"

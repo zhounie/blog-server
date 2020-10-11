@@ -1,6 +1,9 @@
 const Koa = require('koa')
 const router = require('./router/index')
 
+require('./db/index')
+
+
 const app = new Koa()
 
 app.use(router.routes())
