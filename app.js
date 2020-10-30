@@ -38,6 +38,6 @@ app.use(async (ctx, next) => {
     }
 })
 
-app.listen(3000, () => {
-    console.log('app run http://localhost:3000')
+app.listen(8888, () => {
+    console.log('app run http://localhost:8888')
 })
