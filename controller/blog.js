@@ -2,13 +2,20 @@ const mysql = require('../db/index')
 const BlogModel = require('../model/blog')
 
 const getBlogList = async (ctx) => {
+    const { type } = ctx.request.query
+    let where = {}
+    if (type) {
+        where = {
+            tags: type
+        }
+    }
     await BlogModel.findAll({
-
+        where
     }).then(res => {
-        console.log(res);
         return ctx.success(res)
     }).catch(err => {
-        return ctx.fail(res)
+        console.log(err);
+        return ctx.fail(err)
     })
 }
 
@@ -22,7 +29,6 @@ const getBlogDetail = async (ctx) => {
             id: id
         }
     }).then(res => {
-        console.log(res);
         return ctx.success(res)
     }).catch(err => {
         return ctx.fail(res)
