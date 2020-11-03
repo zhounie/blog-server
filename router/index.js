@@ -5,6 +5,7 @@ const { createTable, createBlogTable, createDataBase } = require('../controller/
 
 router.use('/user', require('./user'))
 router.use('/blog', require('./blog'))
+router.use('/book', require('./books'))
 
 
 router.get('/createDataBase', createDataBase)
