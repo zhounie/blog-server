@@ -21,6 +21,7 @@ const getBookList = async (ctx) => {
 }
 
 const addBook = async (ctx) => {
+    console.log('ctx');
     const keys = Object.keys(ctx.request.body)
     const requireKeys = ['name', 'author', 'img']
     const empty = []
@@ -44,6 +45,21 @@ const addBook = async (ctx) => {
     })
 }
 
+const changeBook = async (ctx) => {
+    const { id } = ctx.request.body
+    if (!id) {
+        return ctx.fail('缺失参数: id')
+    }
+    await BooksModel.update({ ...ctx.request.body }, {
+        where: { id }
+    }).then(res => {
+        console.log(res);
+        return ctx.success(res.dataValues)
+    }).catch(err => {o
+        return ctx.fail(err) 
+    })
+}
+
 const deleteBook = async (ctx) => {
     const { id } = ctx.request.body
     if (!id) {
@@ -61,5 +77,6 @@ const deleteBook = async (ctx) => {
 module.exports = {
     getBookList,
     addBook,
+    changeBook,
     deleteBook
 }
