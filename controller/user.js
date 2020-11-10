@@ -1,23 +1,58 @@
-const mysql = require('../db/index')
+const UserModel = require('../model/user')
+const md5 = require('js-md5')
+const JWT = require('../utils/jwt')
 
 const Login = async (ctx) => {
-    ctx.success('这是data')
+    const { username, password } = ctx.request.body
+    if (!username || !password) {
+        ctx.fail('参数错误')
+    }
+    await UserModel.findOne({
+        where: {
+            username: username,
+            password: md5(password)
+        }
+    }).then(res => {
+        if (res === null) {
+            return ctx.fail('用户不存在或密码错误')
+        }
+        const token = new JWT().sign(res.username, 60 * 60);
+        if (!token) {
+            return ctx.fail('创建token失败~')
+        }
+        return ctx.success({
+            id: res.id,
+            username: res.username,
+            token: token
+        })
+    }).catch(err => {
+        if (err === null) {
+            return ctx.fail('用户不存在或密码错误')
+        }
+        return ctx.fail(err)
+    })
 }
 
 const insertUser = async (ctx) => {
-    const { name } = ctx.request.body
-    if (!name) {
+    const { username, password } = ctx.request.body
+    if (!username || !password) {
         return ctx.fail('参数不全')
     }
-    const sql = `INSERT INTO user(name) VALUES('zoey')`
-    return new Promise((resolve) => {
-        mysql.query(sql, (err => {
-            if (err) {
-                return ctx.fail(err)
-            }
-            ctx.success('添加成功')
-            resolve()
-        }))
+    const user = await UserModel.findOne({
+        where: {
+            username: username
+        }
+    })
+    if (user !== null) {
+        return ctx.fail('用户名已存在')
+    }
+    await UserModel.create({
+        username: username,
+        password: md5(password)
+    }).then(res => {
+        return ctx.success(res.dataValues)
+    }).catch(err => {
+        return ctx.fail(err)
     })
 }
 

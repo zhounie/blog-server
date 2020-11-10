@@ -4,7 +4,7 @@ const router = new Router()
 
 const { Login, insertUser } = require('../controller/user')
 
-router.get('/login', Login)
+router.post('/login', Login)
 router.post('/insert', insertUser)
 
 

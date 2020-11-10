@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/zhounie/blog-server#readme",
   "dependencies": {
+    "js-md5": "^0.7.3",
+    "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.0",
     "koa-body": "^4.2.0",
     "koa-bodyparser": "^4.3.0",

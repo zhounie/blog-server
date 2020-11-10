@@ -4,6 +4,8 @@ const cors = require('koa2-cors')
 const koaBody = require('koa-body')
 const koaStatic = require('koa-static')
 const path = require('path')
+const JWT = require('./utils/jwt')
+const { IGNORE_TOKEN_ROUTES } = require('./config/index')
 require('./db/index')
 
 
@@ -36,6 +38,23 @@ app.use(async (ctx, next) => {
     await next()
 })
 
+app.use(async (ctx, next) => {
+    if (IGNORE_TOKEN_ROUTES.includes(ctx.request.url)) {
+        await next()
+    } else {
+        let token = ctx.request.header.authorization
+        if (!token) {
+            ctx.fail('请先登录')
+        } else {
+            let data = new JWT().verify(token)
+            if (!data) {
+                ctx.fail('token错误！')
+            } else {
+                await next()
+            }
+        }
+    }
+})
 
 app.use(router.routes())
 
