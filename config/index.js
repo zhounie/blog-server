@@ -1,7 +1,7 @@
 
 
 module.exports = {
-    IGNORE_TOKEN_ROUTES: ['/user/login'] 
+    IGNORE_TOKEN_ROUTES: ['/user/login', '/user/insert'] 
 }
     
 
