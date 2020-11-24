@@ -31,7 +31,10 @@ const getBlogList = async (ctx) => {
         }
     }
     await BlogModel.findAll({
-        where
+        where: {
+            is_delete: 0,
+            ...where
+        }
     }).then(res => {
         return ctx.success(res)
     }).catch(err => {
@@ -112,9 +115,39 @@ const deleteBlog = async (ctx) => {
     if (!id) {
         return ctx.fail('缺失参数: id')
     }
-    await BlogModel.destroy({
+    await BlogModel.update({
+        is_delete: 1
+    },{
         where: { id }
     }).then(res => {
+        return ctx.success(res.dataValues)
+    }).catch(err => {
+        return ctx.fail(err)
+    })
+}
+
+const showBlog = async (ctx) => {
+    const keys = Object.keys(ctx.request.body)
+    const requireKeys = ['id', 'isShow']
+    const empty = []
+    requireKeys.map(key => {
+        if (!keys.includes(key)) {
+            empty.push(key)
+        }
+    })
+    if (empty.length) {
+        return ctx.fail('缺失参数: ' + empty.join(','))
+    }
+    const { id, isShow } = ctx.request.body
+    await BlogModel.update(
+        {
+            is_show: isShow
+        }, {
+            where: {
+                id: id
+            }
+        }
+    ).then(res =>{
         return ctx.success(res.dataValues)
     }).catch(err => {
         return ctx.fail(err)
@@ -127,5 +160,6 @@ module.exports = {
     getBlogDetail,
     addBlog,
     deleteBlog,
-    saveBlogDetail
+    saveBlogDetail,
+    showBlog
 }
