@@ -58,6 +58,45 @@ const getBlogDetail = async (ctx) => {
     })
 }
 
+const getClientBlogList = async (ctx) => {
+    const { type, title, createTime } = ctx.request.query
+    let where = {}
+    if (type) {
+        where = {
+            tags: type
+        }
+    }
+    if (title) {
+        where = {
+            title: {[Op.like]: `%${title}%`},
+            ...where
+        }
+    }
+    if (createTime) {
+        let date = moment(createTime).format("YYYY-MM-DD")
+        let startTime = new Date(`${date} 00:00:00`)
+        let endTime = new Date(`${date} 23:59:59`)
+        where = {
+            createdAt: {
+                [Op.gt]: `%${startTime}%`,
+                [Op.lt]: `%${endTime}%`
+            },
+            ...where
+        }
+    }
+    await BlogModel.findAll({
+        where: {
+            is_delete: 0,
+            is_show: 1,
+            ...where
+        }
+    }).then(res => {
+        return ctx.success(res)
+    }).catch(err => {
+        return ctx.fail(err)
+    })
+}
+
 const addBlog = async (ctx) => {
     const keys = Object.keys(ctx.request.body)
     const requireKeys = ['title', 'tags']
@@ -158,6 +197,7 @@ const showBlog = async (ctx) => {
 module.exports = {
     getBlogList,
     getBlogDetail,
+    getClientBlogList,
     addBlog,
     deleteBlog,
     saveBlogDetail,

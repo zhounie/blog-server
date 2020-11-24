@@ -5,6 +5,6 @@ module.exports = {
         '/user/login',
         '/user/insert',
         '/book/getBookList',
-        '/blog/getBlogList',
+        '/blog/getClientBlogList',
     ] 
 }
