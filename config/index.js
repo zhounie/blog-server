@@ -7,5 +7,9 @@ module.exports = {
         '/book/getBookList',
         '/blog/getClientBlogList',
         '/blog/getBlogDetail',
-    ] 
+        '/createDataBase',
+        '/createBlogTable',
+        '/createTable'
+    ],
+    HOST: 5656
 }
