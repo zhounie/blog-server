@@ -39,7 +39,7 @@ app.use(async (ctx, next) => {
 })
 
 app.use(async (ctx, next) => {
-    if (ctx.request.header.referer === 'http://81.68.159.230:456/' || isIgnoreTokenRoutes(ctx.request.url)) {
+    if (isIgnoreTokenRoutes(ctx.request.url)) {
         await next()
     } else {
         let token = ctx.request.header.authorization
