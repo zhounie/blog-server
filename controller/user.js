@@ -5,7 +5,7 @@ const JWT = require('../utils/jwt')
 const Login = async (ctx) => {
     const { username, password } = ctx.request.body
     if (!username || !password) {
-        ctx.fail('参数错误')
+        return ctx.fail('参数错误')
     }
     await UserModel.findOne({
         where: {

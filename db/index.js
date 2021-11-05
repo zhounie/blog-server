@@ -6,6 +6,6 @@ const config = {
     dialect: 'mysql'
 }
 
-const sequelize = new Sequelize('blog', 'zoey', '123456', config)
+const sequelize = new Sequelize('blog', 'admin', '123456', config)
 
 module.exports = sequelize
