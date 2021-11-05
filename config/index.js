@@ -2,14 +2,14 @@
 
 module.exports = {
     IGNORE_TOKEN_ROUTES: [
-        '/user/login',
-        '/user/insert',
-        '/book/getBookList',
-        '/blog/getClientBlogList',
-        '/blog/getBlogDetail',
-        '/createDataBase',
-        '/createBlogTable',
-        '/createTable'
+        '/api/user/login',
+        '/api/user/insert',
+        '/api/book/getBookList',
+        '/api/blog/getClientBlogList',
+        '/api/blog/getBlogDetail',
+        '/api/createDataBase',
+        '/api/createBlogTable',
+        '/api/createTable'
     ],
     HOST: 5656
 }
